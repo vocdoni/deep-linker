@@ -1,0 +1,65 @@
+# BASE
+# https://docs.gitlab.com/ce/ci/docker/using_docker_build.html#container-registry-examples
+
+stages:
+  - build
+  - release
+  - deploy
+
+variables:
+  #DOCKER_HOST: tcp://docker:2375
+  #DEEP_LINKER_BUILD_IMAGE: ${CI_REGISTRY_IMAGE}/deep-linker-go:${CI_COMMIT_SHA}
+  DOCKER_DRIVER: overlay2
+  DEEP_LINKER_BUILD_IMAGE: ${CI_REGISTRY_IMAGE}/deep-linker-go:${CI_COMMIT_REF_SLUG}
+  DEEP_LINKER_RELEASE_IMAGE: ${CI_REGISTRY_IMAGE}/deep-linker-go:latest
+
+###############################################################################
+## DEEP LINKER SERVICE
+###############################################################################
+
+build:
+  stage: build
+  image: docker:stable
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u gitlab-ci-token -p ${CI_BUILD_TOKEN} ${CI_REGISTRY}
+  script:
+    - docker build -t ${DEEP_LINKER_BUILD_IMAGE} .
+    - docker push ${DEEP_LINKER_BUILD_IMAGE}
+  only:
+    refs:
+      - master
+      - release
+
+# release:
+#   stage: release
+#   image: docker:stable
+#   services:
+#     - docker:dind
+#   before_script:
+#     - docker login -u gitlab-ci-token -p ${CI_BUILD_TOKEN} ${CI_REGISTRY}
+#   script:
+#     - docker pull ${DEEP_LINKER_BUILD_IMAGE}
+#     - docker tag ${DEEP_LINKER_BUILD_IMAGE} ${DEEP_LINKER_RELEASE_IMAGE}
+#     - docker push ${DEEP_LINKER_RELEASE_IMAGE}
+#   only:
+#     changes:
+#       - ...
+#       - .gitlab-ci.yml
+#     refs:
+#       - release
+
+# deploy-master:
+#   image: alpine:3.7
+#   stage: deploy
+#   script:
+#     - apk add curl
+#     - curl ${DEEP_LINKER_WEBHOOK_PROD}
+#     - curl ${DEEP_LINKER_WEBHOOK_DEV}
+#   only:
+#     changes:
+#       - ...
+#       - .gitlab-ci.yml
+#     refs:
+#       - master

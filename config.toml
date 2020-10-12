@@ -1,0 +1,29 @@
+[http]
+port = 8080
+
+[redirect]
+domain = "vocdoni.page.link" # Subdomain that will handle the dynamic link
+
+[link]
+prefix = "https://app.vocdoni.net"    # Redirection target for both app and desktop
+fallback = "https://vocdoni.io" # Unrecognized paths are redirected here
+
+[android]
+package = "org.vocdoni.app"
+scheme = "vocdoni"
+defaultMinBuild = 1
+
+[ios]
+bundleId = "com.vocdoni.app"
+scheme = "vocdoni"
+appStoreId = "1505234624"
+defaultMinVersion = "0.8"
+
+[social]
+# Default values if none is passed
+title = "Vocdoni"
+description = "Make your community thrive with the universally verifiable voting system"  ## TODO: 
+image = "https://blog.vocdoni.io/content/images/2020/04/Square_512_alpha-1.png"  ## TODO: 
+
+[misc]
+verbose = true
