@@ -5,7 +5,6 @@ FROM golang:1.15-alpine AS builder
 WORKDIR /app
 ADD . /app
 
-RUN go test
 RUN go build -o server
 
 ## RUNNER
