@@ -2,6 +2,8 @@ package main
 
 import (
 	"io/ioutil"
+	"os"
+	"strconv"
 
 	"github.com/BurntSushi/toml"
 )
@@ -50,6 +52,29 @@ func ReadConfig(path string) (Config, error) {
 
 	if _, err := toml.Decode(string(data), &conf); err != nil {
 		return conf, err
+	}
+
+	if os.Getenv("HTTP_PORT") != "" {
+		port, err := strconv.Atoi(os.Getenv("HTTP_PORT"))
+		if err != nil {
+			return conf, err
+		}
+		conf.HTTP.Port = port
+	}
+	if os.Getenv("REDIRECT_DOMAIN") != "" {
+		conf.Redirect.Domain = os.Getenv("REDIRECT_DOMAIN")
+	}
+	if os.Getenv("LINK_PREFIX") != "" {
+		conf.Link.Prefix = os.Getenv("LINK_PREFIX")
+	}
+	if os.Getenv("LINK_FALLBACK") != "" {
+		conf.Link.Fallback = os.Getenv("LINK_FALLBACK")
+	}
+	if os.Getenv("SOCIAL_TITLE") != "" {
+		conf.Social.Title = os.Getenv("SOCIAL_TITLE")
+	}
+	if os.Getenv("SOCIAL_DESCRIPTION") != "" {
+		conf.Social.Description = os.Getenv("SOCIAL_DESCRIPTION")
 	}
 
 	return conf, nil
