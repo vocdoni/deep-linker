@@ -3,15 +3,15 @@
 
 stages:
   - build
-  - release
-  - deploy
+  # - release
+  # - deploy
 
 variables:
   #DOCKER_HOST: tcp://docker:2375
-  #DEEP_LINKER_BUILD_IMAGE: ${CI_REGISTRY_IMAGE}/deep-linker-go:${CI_COMMIT_SHA}
+  #DEEP_LINKER_BUILD_IMAGE: ${CI_REGISTRY_IMAGE}/deep-linker:${CI_COMMIT_SHA}
   DOCKER_DRIVER: overlay2
-  DEEP_LINKER_BUILD_IMAGE: ${CI_REGISTRY_IMAGE}/deep-linker-go:${CI_COMMIT_REF_SLUG}
-  DEEP_LINKER_RELEASE_IMAGE: ${CI_REGISTRY_IMAGE}/deep-linker-go:latest
+  DEEP_LINKER_BUILD_IMAGE: ${CI_REGISTRY_IMAGE}/deep-linker:${CI_COMMIT_REF_SLUG}
+  DEEP_LINKER_RELEASE_IMAGE: ${CI_REGISTRY_IMAGE}/deep-linker:latest
 
 ###############################################################################
 ## DEEP LINKER SERVICE
@@ -27,10 +27,10 @@ build:
   script:
     - docker build -t ${DEEP_LINKER_BUILD_IMAGE} .
     - docker push ${DEEP_LINKER_BUILD_IMAGE}
-  only:
-    refs:
-      - master
-      - release
+  # only:
+  #   refs:
+  #     - master
+  #     - release
 
 # release:
 #   stage: release

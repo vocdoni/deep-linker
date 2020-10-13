@@ -45,5 +45,9 @@ The available environment variables are:
 - `REDIRECT_DOMAIN`
 - `LINK_PREFIX`
 - `LINK_FALLBACK`
+- `ANDROID_PACKAGE`
+- `IOS_BUNDLE_ID`
 - `SOCIAL_TITLE`
 - `SOCIAL_DESCRIPTION`
+
+When an environment variable is present, the value will take precedence over `config.toml`.

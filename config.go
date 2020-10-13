@@ -45,6 +45,7 @@ type Config struct {
 func ReadConfig(path string) (Config, error) {
 	conf := Config{}
 
+	// Read config.toml
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
 		return conf, err
@@ -54,6 +55,7 @@ func ReadConfig(path string) (Config, error) {
 		return conf, err
 	}
 
+	// Environment vars
 	if os.Getenv("HTTP_PORT") != "" {
 		port, err := strconv.Atoi(os.Getenv("HTTP_PORT"))
 		if err != nil {
@@ -69,6 +71,12 @@ func ReadConfig(path string) (Config, error) {
 	}
 	if os.Getenv("LINK_FALLBACK") != "" {
 		conf.Link.Fallback = os.Getenv("LINK_FALLBACK")
+	}
+	if os.Getenv("ANDROID_PACKAGE") != "" {
+		conf.Android.Package = os.Getenv("ANDROID_PACKAGE")
+	}
+	if os.Getenv("IOS_BUNDLE_ID") != "" {
+		conf.Ios.BundleID = os.Getenv("IOS_BUNDLE_ID")
 	}
 	if os.Getenv("SOCIAL_TITLE") != "" {
 		conf.Social.Title = os.Getenv("SOCIAL_TITLE")
