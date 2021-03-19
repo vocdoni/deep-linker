@@ -22,6 +22,7 @@ func main() {
 	app.Get("/processes/:entityID/:processID", handleProcess)
 	app.Get("/posts/:entityID/:postIdx", handlePost)
 	app.Get("/validation/:entityID/:validationToken", handleValidationToken)
+	app.Get("/recovery/:name/:date/:payload", handleAccountRecovery)
 	app.Use(HandleNotFound)
 
 	addr := fmt.Sprintf(":%d", config.HTTP.Port)
@@ -60,12 +61,24 @@ func handlePost(ctx *fiber.Ctx) error {
 	return ctx.SendStatus(fiber.StatusFound) // 302
 }
 
-// handleValidationToken handles the reference to a voting process and redirects to its dynamic links
+// handleValidationToken handles an access token that allows a user to validate his/her identity
 func handleValidationToken(ctx *fiber.Ctx) error {
 	entityID := ctx.Params("entityID")
 	validationToken := ctx.Params("validationToken")
 
 	dynamicLink := MakeRegistryValidationLink(entityID, validationToken, config)
+	ctx.Set("Location", dynamicLink)
+
+	return ctx.SendStatus(fiber.StatusFound) // 302
+}
+
+// handleAccountRecovery handles a link that allows to restore an account
+func handleAccountRecovery(ctx *fiber.Ctx) error {
+	name := ctx.Params("name")
+	date := ctx.Params("date")
+	payload := ctx.Params("payload")
+
+	dynamicLink := MakeRecoveryLink(name, date, payload, config)
 	ctx.Set("Location", dynamicLink)
 
 	return ctx.SendStatus(fiber.StatusFound) // 302

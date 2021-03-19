@@ -29,24 +29,30 @@ func MakeLink(mainURL string, config Config) string {
 
 // MakeEntityLink returns a Dynamic link pointing to a Vocdoni entity, targeting the mobile app and fallback web browsers
 func MakeEntityLink(entityID string, config Config) string {
-	webURL := fmt.Sprintf("%s/entities/#/%s", config.Link.Prefix, entityID)
+	webURL := fmt.Sprintf("%s/entities/#/%s", config.Link.Entities.Prefix, entityID)
 	return MakeLink(webURL, config)
 }
 
 // MakeProcessLink returns a Dynamic link pointing to a Vocdoni Process, targeting the mobile app and fallback web browsers
 func MakeProcessLink(entityID, processID string, config Config) string {
-	webURL := fmt.Sprintf("%s/processes/#/%s/%s", config.Link.Prefix, entityID, processID)
+	webURL := fmt.Sprintf("%s/processes/#/%s/%s", config.Link.Processes.Prefix, entityID, processID)
 	return MakeLink(webURL, config)
 }
 
 // MakePostLink returns a Dynamic link pointing to an entity's post, targeting the mobile app and fallback web browsers
 func MakePostLink(entityID, postIdx string, config Config) string {
-	webURL := fmt.Sprintf("%s/posts/#/%s/%s", config.Link.Prefix, entityID, postIdx)
+	webURL := fmt.Sprintf("%s/posts/#/%s/%s", config.Link.Posts.Prefix, entityID, postIdx)
 	return MakeLink(webURL, config)
 }
 
 // MakeRegistryValidationLink returns a Dynamic link targeting the app to prompt for a registration confirmation
 func MakeRegistryValidationLink(entityID, validationToken string, config Config) string {
-	webURL := fmt.Sprintf("%s/validation/#/%s/%s", config.Link.Prefix, entityID, validationToken)
+	webURL := fmt.Sprintf("%s/validation/#/%s/%s", config.Link.Validation.Prefix, entityID, validationToken)
+	return MakeLink(webURL, config)
+}
+
+// MakeRecoveryLink returns a Dynamic link targeting the manager or the app to recover an account
+func MakeRecoveryLink(name, date, payload string, config Config) string {
+	webURL := fmt.Sprintf("%s/recovery/#/%s/%s/%s", config.Link.Recovery.Prefix, name, date, payload)
 	return MakeLink(webURL, config)
 }

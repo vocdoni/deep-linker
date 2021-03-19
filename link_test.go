@@ -135,6 +135,16 @@ func TestMakeRegistryValidationLink(t *testing.T) {
 	if actualLink != expectedLink {
 		t.Errorf("Incorrect link\nWanted: %s\nGot: %s", expectedLink, actualLink)
 	}
+
+	name := "John"
+	date := "22-10-2021"
+	payload := "0x1234"
+	expectedLink = "https://vocdoni.page.link/?link=https:%2F%2Fmanager.vocdoni.net%2Frecovery%2F%23%2FJohn%2F22-10-2021%2F0x1234&apn=org.vocdoni.app&amv=1&ibi=com.vocdoni.app&ius=vocdoni&isi=1505234624&ivm=0.8&st=Vocdoni&sd=Make%20your%20community%20thrive%20with%20the%20universally%20verifiable%20voting%20system&si=https:%2F%2Fblog.vocdoni.io%2Fcontent%2Fimages%2F2020%2F04%2FSquare_512_alpha-1.png"
+	actualLink = MakeRecoveryLink(name, date, payload, cfg)
+
+	if actualLink != expectedLink {
+		t.Errorf("Incorrect link\nWanted: %s\nGot: %s", expectedLink, actualLink)
+	}
 }
 
 // Helpers
@@ -143,7 +153,11 @@ func makeConfig1() Config {
 	cfg := Config{}
 	cfg.HTTP.Port = 8080
 	cfg.Redirect.Domain = "testing.page.link"
-	cfg.Link.Prefix = "https://app.testing.net"
+	cfg.Link.Entities.Prefix = "https://app.testing.net"
+	cfg.Link.Processes.Prefix = "https://app.testing.net"
+	cfg.Link.Posts.Prefix = "https://app.testing.net"
+	cfg.Link.Validation.Prefix = "https://app.testing.net"
+	cfg.Link.Recovery.Prefix = "https://manager.testing.net"
 	cfg.Link.Fallback = "https://testing.io"
 
 	cfg.Android.Package = "org.testing.app"

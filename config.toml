@@ -5,8 +5,19 @@ port = 8080
 domain = "vocdoni.page.link" # Subdomain that will handle the dynamic link
 
 [link]
-prefix = "https://app.vocdoni.net"    # Redirection target for both app and desktop
 fallback = "https://vocdoni.io" # Unrecognized paths are redirected here
+
+# Redirection targets for both app and desktop
+[link.entities]
+prefix = "https://app.vocdoni.net"
+[link.processes]
+prefix = "https://app.vocdoni.net"
+[link.posts]
+prefix = "https://app.vocdoni.net"
+[link.validation]
+prefix = "https://app.vocdoni.net"
+[link.recovery]
+prefix = "https://manager.vocdoni.net"
 
 [android]
 package = "org.vocdoni.app"

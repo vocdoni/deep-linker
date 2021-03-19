@@ -43,7 +43,6 @@ If running from Docker, mount your config file on `/app/config.toml`.
 The available environment variables are:
 - `HTTP_PORT`
 - `REDIRECT_DOMAIN`
-- `LINK_PREFIX`
 - `LINK_FALLBACK`
 - `ANDROID_PACKAGE`
 - `IOS_BUNDLE_ID`

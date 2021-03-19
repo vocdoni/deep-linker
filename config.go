@@ -17,8 +17,22 @@ type Config struct {
 		Domain string `toml:"domain"`
 	} `toml:"redirect"`
 	Link struct {
-		Prefix   string `toml:"prefix"`
 		Fallback string `toml:"fallback"`
+		Entities struct {
+			Prefix string `toml:"prefix"`
+		} `toml:"entities"`
+		Processes struct {
+			Prefix string `toml:"prefix"`
+		} `toml:"processes"`
+		Posts struct {
+			Prefix string `toml:"prefix"`
+		} `toml:"posts"`
+		Validation struct {
+			Prefix string `toml:"prefix"`
+		} `toml:"validation"`
+		Recovery struct {
+			Prefix string `toml:"prefix"`
+		} `toml:"recovery"`
 	} `toml:"link"`
 	Android struct {
 		Package  string `toml:"package"`
@@ -65,9 +79,6 @@ func ReadConfig(path string) (Config, error) {
 	}
 	if os.Getenv("REDIRECT_DOMAIN") != "" {
 		conf.Redirect.Domain = os.Getenv("REDIRECT_DOMAIN")
-	}
-	if os.Getenv("LINK_PREFIX") != "" {
-		conf.Link.Prefix = os.Getenv("LINK_PREFIX")
 	}
 	if os.Getenv("LINK_FALLBACK") != "" {
 		conf.Link.Fallback = os.Getenv("LINK_FALLBACK")
